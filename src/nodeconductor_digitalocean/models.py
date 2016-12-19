@@ -38,6 +38,10 @@ class DigitalOceanService(structure_models.Service):
     def close_readonly_token_alert(self):
         alert_logger.digital_ocean.close(scope=self.settings, alert_type='token_is_read_only')
 
+    @classmethod
+    def get_url_name(cls):
+        return 'digitalocean'
+
 
 class DigitalOceanServiceProjectLink(structure_models.ServiceProjectLink):
     service = models.ForeignKey(DigitalOceanService)
@@ -46,9 +50,15 @@ class DigitalOceanServiceProjectLink(structure_models.ServiceProjectLink):
         verbose_name = 'DigitalOcean service project link'
         verbose_name_plural = 'DigitalOcean service project links'
 
+    @classmethod
+    def get_url_name(cls):
+        return 'digitalocean-spl'
+
 
 class Region(structure_models.GeneralServiceProperty):
-    pass
+    @classmethod
+    def get_url_name(cls):
+        return 'digitalocean-region'
 
 
 @python_2_unicode_compatible
@@ -70,6 +80,10 @@ class Image(structure_models.GeneralServiceProperty):
     def __str__(self):
         return '{} {} ({})'.format(self.name, self.distribution, self.type)
 
+    @classmethod
+    def get_url_name(cls):
+        return 'digitalocean-image'
+
 
 class Size(structure_models.GeneralServiceProperty):
     regions = models.ManyToManyField(Region)
@@ -80,9 +94,16 @@ class Size(structure_models.GeneralServiceProperty):
     transfer = models.PositiveIntegerField(help_text='Amount of transfer bandwidth in MiB')
     price = models.DecimalField('Hourly price rate', default=0, max_digits=11, decimal_places=5)
 
+    @classmethod
+    def get_url_name(cls):
+        return 'digitalocean-size'
+
 
 class Droplet(RuntimeStateMixin, StateMixin, structure_models.VirtualMachineMixin, structure_models.ResourceMixin):
     service_project_link = models.ForeignKey(
         DigitalOceanServiceProjectLink, related_name='droplets', on_delete=models.PROTECT)
-
     transfer = models.PositiveIntegerField(default=0, help_text='Amount of transfer bandwidth in MiB')
+
+    @classmethod
+    def get_url_name(cls):
+        return 'digitalocean-droplet'
