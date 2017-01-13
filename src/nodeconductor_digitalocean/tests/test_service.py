@@ -40,7 +40,6 @@ class ServicePermissionTest(test.APITransactionTestCase):
 
         self.projects['admined'].add_user(self.users['project_admin'], ProjectRole.ADMINISTRATOR)
         self.projects['managed'].add_user(self.users['project_manager'], ProjectRole.MANAGER)
-        project_group = structure_factories.ProjectGroupFactory()
 
         factories.DigitalOceanServiceProjectLinkFactory(service=self.services['admined'], project=self.projects['admined'])
         factories.DigitalOceanServiceProjectLinkFactory(service=self.services['managed'], project=self.projects['managed'])
