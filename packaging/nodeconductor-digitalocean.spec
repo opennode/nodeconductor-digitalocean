@@ -1,7 +1,7 @@
 Name: nodeconductor-digitalocean
 Summary: DigitalOcean plugin for NodeConductor
 Group: Development/Libraries
-Version: 0.1.4
+Version: 0.1.5
 Release: 1.el7
 License: MIT
 Url: http://nodeconductor.com
@@ -36,6 +36,9 @@ rm -rf %{buildroot}
 %{python_sitelib}/*
 
 %changelog
+* Tue Jan 17 2017 Jenkins <jenkins@opennodecloud.com> - 0.1.5-1.el7
+- New upstream release
+
 * Mon Dec 19 2016 Jenkins <jenkins@opennodecloud.com> - 0.1.4-1.el7
 - New upstream release
 
