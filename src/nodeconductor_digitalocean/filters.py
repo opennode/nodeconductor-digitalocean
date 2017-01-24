@@ -24,4 +24,3 @@ class SizeFilter(structure_filters.BaseServicePropertyFilter):
 class RegionFilter(structure_filters.BaseServicePropertyFilter):
     class Meta(structure_filters.BaseServicePropertyFilter.Meta):
         model = models.Region
-        fields = structure_filters.BaseServicePropertyFilter.Meta.fields + ('distribution', 'type')
