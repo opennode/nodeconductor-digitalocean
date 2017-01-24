@@ -73,7 +73,6 @@ class Image(structure_models.GeneralServiceProperty):
 
     @property
     def is_ssh_key_mandatory(self):
-        OPTIONAL = 'Fedora', 'CentOS', 'Debian'
         MANDATORY = 'Ubuntu', 'FreeBSD', 'CoreOS'
         return self.distribution in MANDATORY
 

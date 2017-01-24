@@ -29,6 +29,7 @@ class ImageViewSet(structure_views.BaseServicePropertyViewSet):
 class RegionViewSet(structure_views.BaseServicePropertyViewSet):
     queryset = models.Region.objects.all()
     serializer_class = serializers.RegionSerializer
+    filter_class = filters.RegionFilter
     lookup_field = 'uuid'
 
     def get_queryset(self):

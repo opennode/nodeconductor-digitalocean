@@ -21,7 +21,6 @@ class ServiceSerializer(core_serializers.ExtraFieldOptionsMixin,
 
     class Meta(structure_serializers.BaseServiceSerializer.Meta):
         model = models.DigitalOceanService
-        view_name = 'digitalocean-detail'
         extra_field_options = {
             'token': {
                 'label': 'Access token'
@@ -33,7 +32,6 @@ class RegionSerializer(structure_serializers.BasePropertySerializer):
 
     class Meta(object):
         model = models.Region
-        view_name = 'digitalocean-region-detail'
         fields = ('url', 'uuid', 'name')
         extra_kwargs = {
             'url': {'lookup_field': 'uuid'},
@@ -44,7 +42,6 @@ class ImageSerializer(structure_serializers.BasePropertySerializer):
 
     class Meta(object):
         model = models.Image
-        view_name = 'digitalocean-image-detail'
         fields = ('url', 'uuid', 'name', 'distribution', 'type', 'regions',
                   'is_official', 'created_at', 'min_disk_size')
         extra_kwargs = {
@@ -58,7 +55,6 @@ class SizeSerializer(structure_serializers.BasePropertySerializer):
 
     class Meta(object):
         model = models.Size
-        view_name = 'digitalocean-size-detail'
         fields = ('url', 'uuid', 'name', 'cores', 'ram', 'disk', 'transfer', 'regions')
         extra_kwargs = {
             'url': {'lookup_field': 'uuid'},
@@ -71,7 +67,6 @@ class ServiceProjectLinkSerializer(structure_serializers.BaseServiceProjectLinkS
 
     class Meta(structure_serializers.BaseServiceProjectLinkSerializer.Meta):
         model = models.DigitalOceanServiceProjectLink
-        view_name = 'digitalocean-spl-detail'
         extra_kwargs = {
             'service': {'lookup_field': 'uuid', 'view_name': 'digitalocean-detail'},
         }
@@ -109,7 +104,6 @@ class DropletSerializer(structure_serializers.VirtualMachineSerializer):
 
     class Meta(structure_serializers.VirtualMachineSerializer.Meta):
         model = models.Droplet
-        view_name = 'digitalocean-droplet-detail'
         fields = structure_serializers.VirtualMachineSerializer.Meta.fields + (
             'region', 'image', 'size', 'runtime_state'
         )
@@ -158,7 +152,6 @@ class DropletImportSerializer(structure_serializers.BaseResourceImportSerializer
 
     class Meta(structure_serializers.BaseResourceImportSerializer.Meta):
         model = models.Droplet
-        view_name = 'digitalocean-droplet-detail'
 
     def create(self, validated_data):
         backend = self.context['service'].get_backend()
