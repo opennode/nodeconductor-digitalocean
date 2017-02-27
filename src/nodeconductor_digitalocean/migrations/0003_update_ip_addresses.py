@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('nodeconductor_digitalocean', '0001_initial'),
+        ('nodeconductor_digitalocean', '0002_remove_digitaloceanservice_name'),
     ]
 
     operations = [

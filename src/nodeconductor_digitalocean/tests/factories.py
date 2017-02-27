@@ -11,7 +11,6 @@ class DigitalOceanServiceFactory(factory.DjangoModelFactory):
     class Meta(object):
         model = models.DigitalOceanService
 
-    name = factory.Sequence(lambda n: 'service%s' % n)
     settings = factory.SubFactory(structure_factories.ServiceSettingsFactory, type='DigitalOcean')
     customer = factory.SubFactory(structure_factories.CustomerFactory)
 
