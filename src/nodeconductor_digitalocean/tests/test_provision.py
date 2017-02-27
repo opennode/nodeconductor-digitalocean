@@ -183,7 +183,8 @@ class BaseDropletProvisionTest(DigitalOceanBackendTest):
         self.manager_api().get_droplet.assert_called_once_with(self.mock_droplet.id)
 
         droplet = Droplet.objects.get(backend_id=self.mock_droplet.id)
-        self.assertEqual(droplet.external_ips, self.mock_droplet.ip_address)
+        self.assertIsNotNone(droplet.external_ips)
+        self.assertEqual(droplet.external_ips[0], self.mock_droplet.ip_address)
 
     def test_when_droplet_is_created_its_state_is_ok_online(self):
         self.client.post(self.url, self.get_valid_data())
