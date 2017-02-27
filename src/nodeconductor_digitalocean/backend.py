@@ -301,7 +301,7 @@ class DigitalOceanBackend(ServiceBackend):
         droplet.ram = backend_droplet.memory
         droplet.disk = self.gb2mb(backend_droplet.disk)
         droplet.transfer = self.tb2mb(backend_droplet.size['transfer'])
-        droplet.external_ips = backend_droplet.ip_address
+        droplet.ip_address = backend_droplet.ip_address
         droplet.created = dateparse.parse_datetime(backend_droplet.created_at)
         state, runtime_state = self._get_droplet_states(backend_droplet)
         droplet.runtime_state = runtime_state
