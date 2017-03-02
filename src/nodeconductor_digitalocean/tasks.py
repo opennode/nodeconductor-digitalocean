@@ -23,8 +23,8 @@ class WaitForActionComplete(CeleryTask):
         action = backend.manager.get_action(action_id)
         if action.status == 'completed':
             backend_droplet = backend.get_droplet(droplet.backend_id)
-            droplet.external_ips = backend_droplet.ip_address
-            droplet.save(update_fields=['external_ips'])
+            droplet.ip_address = backend_droplet.ip_address
+            droplet.save(update_fields=['ip_address'])
             return True
         else:
             self.retry()

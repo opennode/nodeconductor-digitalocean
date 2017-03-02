@@ -149,8 +149,10 @@ class ServicePermissionTest(test.APITransactionTestCase):
     def test_user_can_add_service_to_the_customer_he_owns(self):
         self.client.force_authenticate(user=self.users['customer_owner'])
 
-        new_service = factories.DigitalOceanServiceFactory.build(settings=self.settings, customer=self.customers['owned'])
-        response = self.client.post(factories.DigitalOceanServiceFactory.get_list_url(), self._get_valid_payload(new_service))
+        new_service = factories.DigitalOceanServiceFactory.build(settings=self.settings,
+                                                                 customer=self.customers['owned'])
+        url = factories.DigitalOceanServiceFactory.get_list_url()
+        response = self.client.post(url, self._get_valid_payload(new_service))
         self.assertEqual(response.status_code, status.HTTP_201_CREATED, response.data)
 
     def test_user_cannot_add_service_to_the_customer_he_sees_but_doesnt_own(self):
@@ -162,14 +164,16 @@ class ServicePermissionTest(test.APITransactionTestCase):
 
             new_service = factories.DigitalOceanServiceFactory.build(
                 settings=self.settings, customer=self.customers[customer_type])
-            response = self.client.post(factories.DigitalOceanServiceFactory.get_list_url(), self._get_valid_payload(new_service))
+            url = factories.DigitalOceanServiceFactory.get_list_url()
+            response = self.client.post(url, self._get_valid_payload(new_service))
             self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN, response.data)
 
     def test_user_cannot_add_service_to_the_customer_he_has_no_role_in(self):
         self.client.force_authenticate(user=self.users['no_role'])
 
         new_service = factories.DigitalOceanServiceFactory.build(customer=self.customers['owned'])
-        response = self.client.post(factories.DigitalOceanServiceFactory.get_list_url(), self._get_valid_payload(new_service))
+        url = factories.DigitalOceanServiceFactory.get_list_url()
+        response = self.client.post(url, self._get_valid_payload(new_service))
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     # Mutation tests
@@ -190,21 +194,9 @@ class ServicePermissionTest(test.APITransactionTestCase):
         reread_service = DigitalOceanService.objects.get(pk=service.pk)
         self.assertEqual(reread_service.customer, service.customer)
 
-    def test_user_can_change_service_name_of_service_he_owns(self):
-        self.client.force_authenticate(user=self.users['customer_owner'])
-
-        service = self.services['owned']
-
-        payload = {'name': 'new name'}
-        response = self.client.patch(factories.DigitalOceanServiceFactory.get_url(service), data=payload)
-        self.assertEqual(response.status_code, status.HTTP_200_OK, response.data)
-
-        reread_service = DigitalOceanService.objects.get(pk=service.pk)
-        self.assertEqual(reread_service.name, 'new name')
-
     def _get_valid_payload(self, resource):
         return {
-            'name': resource.name,
+            'name': 'new_service_name',
             'settings': structure_factories.ServiceSettingsFactory.get_url(resource.settings),
             'customer': structure_factories.CustomerFactory.get_url(resource.customer),
         }

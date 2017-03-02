@@ -12,14 +12,14 @@ tests_requires = [
 ]
 
 install_requires = [
-    'nodeconductor>0.120.0',
+    'nodeconductor>0.124.0',
     'python-digitalocean>=1.5',
 ]
 
 
 setup(
     name='nodeconductor-digitalocean',
-    version='0.3.0',
+    version='0.4.0',
     author='OpenNode Team',
     author_email='info@opennodecloud.com',
     url='http://nodeconductor.com',
@@ -30,7 +30,7 @@ setup(
     install_requires=install_requires,
     zip_safe=False,
     extras_require={
-        'test': tests_requires,
+        'tests': tests_requires,
         'dev': dev_requires,
     },
     entry_points={
