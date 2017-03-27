@@ -105,13 +105,13 @@ class DropletSerializer(structure_serializers.VirtualMachineSerializer):
     class Meta(structure_serializers.VirtualMachineSerializer.Meta):
         model = models.Droplet
         fields = structure_serializers.VirtualMachineSerializer.Meta.fields + (
-            'region', 'image', 'size', 'runtime_state'
+            'region', 'image', 'size', 'runtime_state', 'region_name',
         )
         protected_fields = structure_serializers.VirtualMachineSerializer.Meta.protected_fields + (
             'region', 'image', 'size',
         )
         read_only_fields = structure_serializers.VirtualMachineSerializer.Meta.read_only_fields + (
-            'runtime_state',
+            'runtime_state', 'region_name',
         )
 
     def validate(self, attrs):
@@ -146,6 +146,10 @@ class DropletSerializer(structure_serializers.VirtualMachineSerializer):
                 })
 
         return attrs
+
+    def create(self, validated_data):
+        validated_data['region_name'] = validated_data['region'].name
+        return super(DropletSerializer, self).create(validated_data)
 
 
 class DropletImportSerializer(structure_serializers.BaseResourceImportSerializer):
