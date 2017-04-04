@@ -12,7 +12,7 @@ tests_requires = [
 ]
 
 install_requires = [
-    'nodeconductor>0.124.0',
+    'nodeconductor>0.130.0',
     'python-digitalocean>=1.5',
 ]
 
