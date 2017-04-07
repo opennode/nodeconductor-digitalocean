@@ -76,7 +76,7 @@ class Migration(migrations.Migration):
                 ('image_name', models.CharField(max_length=150, blank=True)),
                 ('key_name', models.CharField(max_length=50, blank=True)),
                 ('key_fingerprint', models.CharField(max_length=47, blank=True)),
-                ('user_data', models.TextField(help_text='Additional data that will be added to instance on provisioning', blank=True, validators=[nodeconductor.structure.models.validate_yaml])),
+                ('user_data', models.TextField(help_text='Additional data that will be added to instance on provisioning', blank=True)),
                 ('backend_id', models.CharField(max_length=255, blank=True)),
                 ('start_time', models.DateTimeField(null=True, blank=True)),
                 ('transfer', models.PositiveIntegerField(default=0, help_text='Amount of transfer bandwidth in MiB')),
