@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
-from nodeconductor.core.models import RuntimeStateMixin, StateMixin
 from nodeconductor.quotas.fields import CounterQuotaField
 from nodeconductor.quotas.models import QuotaModelMixin
 from nodeconductor.structure import models as structure_models
@@ -98,7 +97,7 @@ class Size(structure_models.GeneralServiceProperty):
         return 'digitalocean-size'
 
 
-class Droplet(RuntimeStateMixin, StateMixin, structure_models.VirtualMachineMixin, structure_models.ResourceMixin):
+class Droplet(structure_models.VirtualMachine):
     service_project_link = models.ForeignKey(
         DigitalOceanServiceProjectLink, related_name='droplets', on_delete=models.PROTECT)
     transfer = models.PositiveIntegerField(default=0, help_text='Amount of transfer bandwidth in MiB')
