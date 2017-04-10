@@ -82,6 +82,10 @@ class Image(structure_models.GeneralServiceProperty):
     def get_url_name(cls):
         return 'digitalocean-image'
 
+    @classmethod
+    def get_backend_fields(cls):
+        return super(Image, cls).get_backend_fields() + ('type', 'distribution', 'is_official', 'min_disk_size', 'created_at')
+
 
 class Size(structure_models.GeneralServiceProperty):
     regions = models.ManyToManyField(Region)
@@ -95,6 +99,10 @@ class Size(structure_models.GeneralServiceProperty):
     @classmethod
     def get_url_name(cls):
         return 'digitalocean-size'
+
+    @classmethod
+    def get_backend_fields(cls):
+        return super(Size, cls).get_backend_fields() + ('cores', 'ram', 'disk', 'transfer', 'price')
 
 
 class Droplet(structure_models.VirtualMachine):
@@ -115,3 +123,7 @@ class Droplet(structure_models.VirtualMachine):
     @classmethod
     def get_url_name(cls):
         return 'digitalocean-droplet'
+
+    @classmethod
+    def get_backend_fields(cls):
+        return super(Droplet, cls).get_backend_fields() + ('state', 'runtime_state', 'image_name')
