@@ -16,8 +16,8 @@ class DigitalOceanService(structure_models.Service):
         structure_models.Project, related_name='digitalocean_services', through='DigitalOceanServiceProjectLink')
 
     class Meta(structure_models.Service.Meta):
-        verbose_name = 'DigitalOcean service'
-        verbose_name_plural = 'DigitalOcean services'
+        verbose_name = 'DigitalOcean provider'
+        verbose_name_plural = 'DigitalOcean providers'
 
     class Quotas(QuotaModelMixin.Quotas):
         droplet_count = CounterQuotaField(
@@ -46,8 +46,8 @@ class DigitalOceanServiceProjectLink(structure_models.ServiceProjectLink):
     service = models.ForeignKey(DigitalOceanService)
 
     class Meta(structure_models.ServiceProjectLink.Meta):
-        verbose_name = 'DigitalOcean service project link'
-        verbose_name_plural = 'DigitalOcean service project links'
+        verbose_name = 'DigitalOcean provider project link'
+        verbose_name_plural = 'DigitalOcean provider project links'
 
     @classmethod
     def get_url_name(cls):
