@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
-from nodeconductor.core.models import RuntimeStateMixin, StateMixin
 from nodeconductor.quotas.fields import CounterQuotaField
 from nodeconductor.quotas.models import QuotaModelMixin
 from nodeconductor.structure import models as structure_models
@@ -17,8 +16,8 @@ class DigitalOceanService(structure_models.Service):
         structure_models.Project, related_name='digitalocean_services', through='DigitalOceanServiceProjectLink')
 
     class Meta(structure_models.Service.Meta):
-        verbose_name = 'DigitalOcean service'
-        verbose_name_plural = 'DigitalOcean services'
+        verbose_name = 'DigitalOcean provider'
+        verbose_name_plural = 'DigitalOcean providers'
 
     class Quotas(QuotaModelMixin.Quotas):
         droplet_count = CounterQuotaField(
@@ -47,8 +46,8 @@ class DigitalOceanServiceProjectLink(structure_models.ServiceProjectLink):
     service = models.ForeignKey(DigitalOceanService)
 
     class Meta(structure_models.ServiceProjectLink.Meta):
-        verbose_name = 'DigitalOcean service project link'
-        verbose_name_plural = 'DigitalOcean service project links'
+        verbose_name = 'DigitalOcean provider project link'
+        verbose_name_plural = 'DigitalOcean provider project links'
 
     @classmethod
     def get_url_name(cls):
@@ -106,7 +105,7 @@ class Size(structure_models.GeneralServiceProperty):
         return super(Size, cls).get_backend_fields() + ('cores', 'ram', 'disk', 'transfer', 'price')
 
 
-class Droplet(RuntimeStateMixin, StateMixin, structure_models.VirtualMachineMixin, structure_models.ResourceMixin):
+class Droplet(structure_models.VirtualMachine):
     service_project_link = models.ForeignKey(
         DigitalOceanServiceProjectLink, related_name='droplets', on_delete=models.PROTECT)
     transfer = models.PositiveIntegerField(default=0, help_text='Amount of transfer bandwidth in MiB')

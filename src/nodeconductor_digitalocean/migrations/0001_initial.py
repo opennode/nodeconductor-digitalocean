@@ -33,8 +33,8 @@ class Migration(migrations.Migration):
             ],
             options={
                 'abstract': False,
-                'verbose_name': 'DigitalOcean service',
-                'verbose_name_plural': 'DigitalOcean services',
+                'verbose_name': 'DigitalOcean provider',
+                'verbose_name_plural': 'DigitalOcean providers',
             },
             bases=(nodeconductor.core.models.DescendantMixin, nodeconductor.logging.loggers.LoggableMixin, models.Model),
         ),
@@ -47,8 +47,8 @@ class Migration(migrations.Migration):
             ],
             options={
                 'abstract': False,
-                'verbose_name': 'DigitalOcean service project link',
-                'verbose_name_plural': 'DigitalOcean service project links',
+                'verbose_name': 'DigitalOcean provider project link',
+                'verbose_name_plural': 'DigitalOcean provider project links',
             },
             bases=(nodeconductor.core.models.DescendantMixin, nodeconductor.logging.loggers.LoggableMixin, models.Model),
         ),
