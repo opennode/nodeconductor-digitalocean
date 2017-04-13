@@ -42,10 +42,10 @@ class DigitalOceanService(structure_models.Service):
         return 'digitalocean'
 
 
-class DigitalOceanServiceProjectLink(structure_models.ServiceProjectLink):
+class DigitalOceanServiceProjectLink(structure_models.CloudServiceProjectLink):
     service = models.ForeignKey(DigitalOceanService)
 
-    class Meta(structure_models.ServiceProjectLink.Meta):
+    class Meta(structure_models.CloudServiceProjectLink.Meta):
         verbose_name = 'DigitalOcean provider project link'
         verbose_name_plural = 'DigitalOcean provider project links'
 
@@ -112,6 +112,16 @@ class Droplet(structure_models.VirtualMachine):
     ip_address = models.GenericIPAddressField(null=True, protocol='IPv4', blank=True)
     region_name = models.CharField(max_length=150, blank=True)
     size_name = models.CharField(max_length=150, blank=True)
+
+    def increase_backend_quotas_usage(self, validate=True):
+        self.service_project_link.add_quota_usage(self.service_project_link.Quotas.storage, self.disk)
+        self.service_project_link.add_quota_usage(self.service_project_link.Quotas.ram, self.ram)
+        self.service_project_link.add_quota_usage(self.service_project_link.Quotas.vcpu, self.cores)
+
+    def decrease_backend_quotas_usage(self):
+        self.service_project_link.add_quota_usage(self.service_project_link.Quotas.storage, -self.disk)
+        self.service_project_link.add_quota_usage(self.service_project_link.Quotas.ram, -self.ram)
+        self.service_project_link.add_quota_usage(self.service_project_link.Quotas.vcpu, -self.cores)
 
     @property
     def external_ips(self):
