@@ -15,8 +15,11 @@ class DropletStrategy(CostTrackingStrategy):
                 for size in models.Size.objects.all()]
 
     @classmethod
-    def get_configuration(cls, instance):
-        return {}
+    def get_configuration(cls, droplet):
+        consumables = {}
+        if droplet.state != models.Droplet.States.ERRED:
+            consumables[ConsumableItem(item_type=cls.Types.FLAVOR, key=droplet.size_name)] = 1
+        return consumables
 
 
 CostTrackingRegister.register_strategy(DropletStrategy)
