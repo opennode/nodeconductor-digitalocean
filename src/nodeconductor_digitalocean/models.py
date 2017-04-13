@@ -111,6 +111,7 @@ class Droplet(structure_models.VirtualMachine):
     transfer = models.PositiveIntegerField(default=0, help_text='Amount of transfer bandwidth in MiB')
     ip_address = models.GenericIPAddressField(null=True, protocol='IPv4', blank=True)
     region_name = models.CharField(max_length=150, blank=True)
+    size_name = models.CharField(max_length=150, blank=True)
 
     @property
     def external_ips(self):
