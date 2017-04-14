@@ -102,6 +102,7 @@ class DropletFactory(factory.DjangoModelFactory):
     service_project_link = factory.SubFactory(DigitalOceanServiceProjectLinkFactory)
 
     state = models.Droplet.States.OK
+    runtime_state = models.Droplet.RuntimeStates.ONLINE
     cores = fuzzy.FuzzyInteger(1, 8, step=2)
     ram = fuzzy.FuzzyInteger(1024, 10240, step=1024)
     disk = fuzzy.FuzzyInteger(1024, 102400, step=1024)

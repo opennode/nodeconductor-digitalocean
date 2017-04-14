@@ -143,3 +143,34 @@ class DropletDeleteTest(test.APITransactionTestCase):
         self.assertEqual(0, actual_storage_usage)
         self.assertEqual(0, actual_ram_usage)
         self.assertEqual(0, actual_vcpu_usage)
+
+
+class DropletResizeTest(test.APITransactionTestCase):
+
+    def setUp(self):
+        self.fixture = fixtures.DigitalOceanFixture()
+
+    @mock.patch('nodeconductor_digitalocean.executors.DropletResizeExecutor.execute')
+    def test_droplet_resize_increases_quotas(self, executor):
+        self.client.force_authenticate(self.fixture.owner)
+        droplet = self.fixture.droplet
+        droplet.runtime_state = droplet.RuntimeStates.OFFLINE
+        droplet.save()
+        droplet.increase_backend_quotas_usage()
+        size = factories.SizeFactory(cores=droplet.cores+2, disk=droplet.disk+2048, ram=droplet.ram+1024)
+        payload = {
+            'size': factories.SizeFactory.get_url(size),
+            'disk': True,
+        }
+
+        response = self.client.post(factories.DropletFactory.get_url(droplet, 'resize'), payload)
+
+        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED, response.data)
+        spl = self.fixture.spl
+        actual_storage_usage = spl.quotas.get(name=models.DigitalOceanServiceProjectLink.Quotas.storage).usage
+        actual_ram_usage = spl.quotas.get(name=models.DigitalOceanServiceProjectLink.Quotas.ram).usage
+        actual_vcpu_usage = spl.quotas.get(name=models.DigitalOceanServiceProjectLink.Quotas.vcpu).usage
+        self.assertEqual(size.disk, actual_storage_usage)
+        self.assertEqual(size.ram, actual_ram_usage)
+        self.assertEqual(size.cores, actual_vcpu_usage)
+

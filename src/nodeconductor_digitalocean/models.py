@@ -114,9 +114,9 @@ class Droplet(structure_models.VirtualMachine):
     size_name = models.CharField(max_length=150, blank=True)
 
     def increase_backend_quotas_usage(self, validate=True):
-        self.service_project_link.add_quota_usage(self.service_project_link.Quotas.storage, self.disk)
-        self.service_project_link.add_quota_usage(self.service_project_link.Quotas.ram, self.ram)
-        self.service_project_link.add_quota_usage(self.service_project_link.Quotas.vcpu, self.cores)
+        self.service_project_link.add_quota_usage(self.service_project_link.Quotas.storage, self.disk, validate)
+        self.service_project_link.add_quota_usage(self.service_project_link.Quotas.ram, self.ram, validate)
+        self.service_project_link.add_quota_usage(self.service_project_link.Quotas.vcpu, self.cores, validate)
 
     def decrease_backend_quotas_usage(self):
         self.service_project_link.add_quota_usage(self.service_project_link.Quotas.storage, -self.disk)
