@@ -49,6 +49,7 @@ class DropletViewSet(structure_views.VirtualMachineViewSet):
     create_executor = executors.DropletCreateExecutor
     update_executor = EmptyExecutor
     delete_executor = executors.DropletDeleteExecutor
+    resize_executor = executors.DropletResizeExecutor
     runtime_state_executor = executors.DropletStateChangeExecutor
     runtime_acceptable_states = dict(
         resize=models.Droplet.RuntimeStates.OFFLINE,
@@ -115,7 +116,7 @@ class DropletViewSet(structure_views.VirtualMachineViewSet):
         size = serializer.validated_data['size']
         disk = serializer.validated_data['disk']
 
-        executors.DropletResizeExecutor.execute(
+        self.resize_executor.execute(
             droplet,
             disk=disk,
             size=size,
@@ -130,11 +131,24 @@ class DropletViewSet(structure_views.VirtualMachineViewSet):
             event_context={'droplet': droplet, 'size': size}
         )
 
+        cores_increment = size.cores - droplet.cores
+        ram_increment = size.ram - droplet.ram
+        disk_increment = None
+
         droplet.cores = size.cores
         droplet.ram = size.ram
 
         if disk:
+            disk_increment = size.disk - droplet.disk
             droplet.disk = size.disk
+
         droplet.save()
+
+        spl = droplet.service_project_link
+
+        if disk_increment:
+            spl.add_quota_usage(spl.Quotas.storage, disk_increment, validate=True)
+        spl.add_quota_usage(spl.Quotas.ram, ram_increment, validate=True)
+        spl.add_quota_usage(spl.Quotas.vcpu, cores_increment, validate=True)
 
         return response.Response({'detail': 'resizing was scheduled'}, status=status.HTTP_202_ACCEPTED)

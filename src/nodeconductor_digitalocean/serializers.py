@@ -149,6 +149,7 @@ class DropletSerializer(structure_serializers.VirtualMachineSerializer):
 
     def create(self, validated_data):
         validated_data['region_name'] = validated_data['region'].name
+        validated_data['size_name'] = validated_data['size'].name
         return super(DropletSerializer, self).create(validated_data)
 
 
@@ -196,6 +197,6 @@ class DropletResizeSerializer(serializers.Serializer):
         return value
 
     def is_same_size(self, new_size):
-        return new_size.disk == self.instance.disk and \
-               new_size.cores == self.instance.cores and \
-               new_size.ram == self.instance.ram
+        return (new_size.disk == self.instance.disk and
+                new_size.cores == self.instance.cores and
+                new_size.ram == self.instance.ram)
