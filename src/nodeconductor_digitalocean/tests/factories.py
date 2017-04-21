@@ -1,4 +1,5 @@
 import factory
+from factory import fuzzy
 
 from django.core.urlresolvers import reverse
 
@@ -79,11 +80,11 @@ class SizeFactory(factory.DjangoModelFactory):
     name = factory.Sequence(lambda n: 'size%s' % n)
     backend_id = factory.Sequence(lambda n: 'size-id%s' % n)
 
-    cores = 2
-    ram = 2 * 1024
-    disk = 10 * 1024
-    transfer = 10 * 1024 * 1024
-    price = 0.99
+    cores = fuzzy.FuzzyInteger(1, 8, step=2)
+    ram = fuzzy.FuzzyInteger(1024, 10240, step=1024)
+    disk = fuzzy.FuzzyInteger(1024, 102400, step=1024)
+    transfer = fuzzy.FuzzyInteger(10240, 102400, step=10240)
+    price = fuzzy.FuzzyDecimal(0.5, 5, precision=2)
 
     @classmethod
     def get_url(cls, size=None):
@@ -100,10 +101,12 @@ class DropletFactory(factory.DjangoModelFactory):
     backend_id = factory.Sequence(lambda n: 'droplet-id%s' % n)
     service_project_link = factory.SubFactory(DigitalOceanServiceProjectLinkFactory)
 
-    cores = 2
-    ram = 2 * 1024
-    disk = 10 * 1024
-    transfer = 10 * 1024 * 1024
+    state = models.Droplet.States.OK
+    runtime_state = models.Droplet.RuntimeStates.ONLINE
+    cores = fuzzy.FuzzyInteger(1, 8, step=2)
+    ram = fuzzy.FuzzyInteger(1024, 10240, step=1024)
+    disk = fuzzy.FuzzyInteger(1024, 102400, step=1024)
+    transfer = fuzzy.FuzzyInteger(10240, 102400, step=10240)
 
     @classmethod
     def get_url(cls, droplet=None, action=None):

@@ -101,6 +101,7 @@ class DigitalOceanBackend(ServiceBackend):
     def destroy(self, droplet):
         backend_droplet = self.get_droplet(droplet.backend_id)
         backend_droplet.destroy()
+        droplet.decrease_backend_quotas_usage()
 
     @digitalocean_error_handler
     def start(self, droplet):

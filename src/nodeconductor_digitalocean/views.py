@@ -50,7 +50,21 @@ class DropletViewSet(structure_views.ResourceViewSet):
     create_executor = executors.DropletCreateExecutor
     update_executor = core_executors.EmptyExecutor
     delete_executor = executors.DropletDeleteExecutor
+<<<<<<< HEAD
     destroy_validators = [core_validators.StateValidator(models.Droplet.States.OK, models.Droplet.States.ERRED)]
+=======
+    resize_executor = executors.DropletResizeExecutor
+    runtime_state_executor = executors.DropletStateChangeExecutor
+    runtime_acceptable_states = dict(
+        resize=models.Droplet.RuntimeStates.OFFLINE,
+        **structure_views.VirtualMachineViewSet.runtime_acceptable_states
+    )
+
+    def get_serializer_class(self):
+        if self.action == 'resize':
+            return serializers.DropletResizeSerializer
+        return super(DropletViewSet, self).get_serializer_class()
+>>>>>>> bef93c3c67fea7ddb59746fb496dc80af0bac6fc
 
     def perform_create(self, serializer):
         region = serializer.validated_data['region']
@@ -137,7 +151,7 @@ class DropletViewSet(structure_views.ResourceViewSet):
         size = serializer.validated_data['size']
         disk = serializer.validated_data['disk']
 
-        executors.DropletResizeExecutor.execute(
+        self.resize_executor.execute(
             droplet,
             disk=disk,
             size=size,
@@ -152,12 +166,25 @@ class DropletViewSet(structure_views.ResourceViewSet):
             event_context={'droplet': droplet, 'size': size}
         )
 
+        cores_increment = size.cores - droplet.cores
+        ram_increment = size.ram - droplet.ram
+        disk_increment = None
+
         droplet.cores = size.cores
         droplet.ram = size.ram
 
         if disk:
+            disk_increment = size.disk - droplet.disk
             droplet.disk = size.disk
+
         droplet.save()
+
+        spl = droplet.service_project_link
+
+        if disk_increment:
+            spl.add_quota_usage(spl.Quotas.storage, disk_increment, validate=True)
+        spl.add_quota_usage(spl.Quotas.ram, ram_increment, validate=True)
+        spl.add_quota_usage(spl.Quotas.vcpu, cores_increment, validate=True)
 
         return response.Response({'detail': 'resizing was scheduled'}, status=status.HTTP_202_ACCEPTED)
 
