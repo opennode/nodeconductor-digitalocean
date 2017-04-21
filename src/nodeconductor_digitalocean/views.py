@@ -50,21 +50,7 @@ class DropletViewSet(structure_views.ResourceViewSet):
     create_executor = executors.DropletCreateExecutor
     update_executor = core_executors.EmptyExecutor
     delete_executor = executors.DropletDeleteExecutor
-<<<<<<< HEAD
     destroy_validators = [core_validators.StateValidator(models.Droplet.States.OK, models.Droplet.States.ERRED)]
-=======
-    resize_executor = executors.DropletResizeExecutor
-    runtime_state_executor = executors.DropletStateChangeExecutor
-    runtime_acceptable_states = dict(
-        resize=models.Droplet.RuntimeStates.OFFLINE,
-        **structure_views.VirtualMachineViewSet.runtime_acceptable_states
-    )
-
-    def get_serializer_class(self):
-        if self.action == 'resize':
-            return serializers.DropletResizeSerializer
-        return super(DropletViewSet, self).get_serializer_class()
->>>>>>> bef93c3c67fea7ddb59746fb496dc80af0bac6fc
 
     def perform_create(self, serializer):
         region = serializer.validated_data['region']
