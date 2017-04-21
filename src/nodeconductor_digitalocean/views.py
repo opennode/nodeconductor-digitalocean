@@ -1,8 +1,8 @@
 from __future__ import unicode_literals
 
-from rest_framework import decorators, response, status
+from rest_framework import decorators, response, status, serializers as rf_serializers
 
-from nodeconductor.core.executors import EmptyExecutor
+from nodeconductor.core import executors as core_executors, validators as core_validators
 from nodeconductor.structure import views as structure_views
 
 from . import models, serializers, log, filters, executors
@@ -43,23 +43,14 @@ class SizeViewSet(structure_views.BaseServicePropertyViewSet):
     lookup_field = 'uuid'
 
 
-class DropletViewSet(structure_views.VirtualMachineViewSet):
+class DropletViewSet(structure_views.ResourceViewSet):
     queryset = models.Droplet.objects.all()
     serializer_class = serializers.DropletSerializer
-    create_executor = executors.DropletCreateExecutor
-    update_executor = EmptyExecutor
-    delete_executor = executors.DropletDeleteExecutor
-    resize_executor = executors.DropletResizeExecutor
-    runtime_state_executor = executors.DropletStateChangeExecutor
-    runtime_acceptable_states = dict(
-        resize=models.Droplet.RuntimeStates.OFFLINE,
-        **structure_views.VirtualMachineViewSet.runtime_acceptable_states
-    )
 
-    def get_serializer_class(self):
-        if self.action == 'resize':
-            return serializers.DropletResizeSerializer
-        return super(DropletViewSet, self).get_serializer_class()
+    create_executor = executors.DropletCreateExecutor
+    update_executor = core_executors.EmptyExecutor
+    delete_executor = executors.DropletDeleteExecutor
+    destroy_validators = [core_validators.StateValidator(models.Droplet.States.OK, models.Droplet.States.ERRED)]
 
     def perform_create(self, serializer):
         region = serializer.validated_data['region']
@@ -82,6 +73,36 @@ class DropletViewSet(structure_views.VirtualMachineViewSet):
             backend_image_id=image.backend_id,
             backend_size_id=size.backend_id,
             ssh_key_uuid=ssh_key.uuid.hex if ssh_key else None)
+
+    @decorators.detail_route(methods=['post'])
+    def start(self, request, uuid=None):
+        instance = self.get_object()
+        executors.DropletStartExecutor().execute(instance)
+        return response.Response({'status': 'start was scheduled'}, status=status.HTTP_202_ACCEPTED)
+
+    start_validators = [core_validators.StateValidator(models.Droplet.States.OK),
+                        core_validators.RuntimeStateValidator(models.Droplet.RuntimeStates.OFFLINE)]
+    start_serializer_class = rf_serializers.Serializer
+
+    @decorators.detail_route(methods=['post'])
+    def stop(self, request, uuid=None):
+        instance = self.get_object()
+        executors.DropletStopExecutor().execute(instance)
+        return response.Response({'status': 'stop was scheduled'}, status=status.HTTP_202_ACCEPTED)
+
+    stop_validators = [core_validators.StateValidator(models.Droplet.States.OK),
+                       core_validators.RuntimeStateValidator(models.Droplet.RuntimeStates.ONLINE)]
+    stop_serializer_class = rf_serializers.Serializer
+
+    @decorators.detail_route(methods=['post'])
+    def restart(self, request, uuid=None):
+        instance = self.get_object()
+        executors.DropletRestartExecutor().execute(instance)
+        return response.Response({'status': 'restart was scheduled'}, status=status.HTTP_202_ACCEPTED)
+
+    restart_validators = [core_validators.StateValidator(models.Droplet.States.OK),
+                          core_validators.RuntimeStateValidator(models.Droplet.RuntimeStates.ONLINE)]
+    restart_serializer_class = rf_serializers.Serializer
 
     @decorators.detail_route(methods=['post'])
     def resize(self, request, uuid=None):
@@ -116,7 +137,7 @@ class DropletViewSet(structure_views.VirtualMachineViewSet):
         size = serializer.validated_data['size']
         disk = serializer.validated_data['disk']
 
-        self.resize_executor.execute(
+        executors.DropletResizeExecutor.execute(
             droplet,
             disk=disk,
             size=size,
@@ -152,3 +173,6 @@ class DropletViewSet(structure_views.VirtualMachineViewSet):
         spl.add_quota_usage(spl.Quotas.vcpu, cores_increment, validate=True)
 
         return response.Response({'detail': 'resizing was scheduled'}, status=status.HTTP_202_ACCEPTED)
+
+    resize_validators = [core_validators.StateValidator(models.Droplet.States.OK)]
+    resize_serializer_class = serializers.DropletResizeSerializer

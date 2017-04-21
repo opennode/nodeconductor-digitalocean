@@ -145,7 +145,7 @@ class DropletDeleteTest(test.APITransactionTestCase):
         self.assertEqual(0, actual_vcpu_usage)
 
 
-class DropletResizeTest(test.APITransactionTestCase):
+class SecondDropletResizeTest(test.APITransactionTestCase):
 
     def setUp(self):
         self.fixture = fixtures.DigitalOceanFixture()
@@ -157,7 +157,7 @@ class DropletResizeTest(test.APITransactionTestCase):
         droplet.runtime_state = droplet.RuntimeStates.OFFLINE
         droplet.save()
         droplet.increase_backend_quotas_usage()
-        size = factories.SizeFactory(cores=droplet.cores+2, disk=droplet.disk+2048, ram=droplet.ram+1024)
+        size = factories.SizeFactory(cores=droplet.cores + 2, disk=droplet.disk + 2048, ram=droplet.ram + 1024)
         payload = {
             'size': factories.SizeFactory.get_url(size),
             'disk': True,
@@ -173,4 +173,3 @@ class DropletResizeTest(test.APITransactionTestCase):
         self.assertEqual(size.disk, actual_storage_usage)
         self.assertEqual(size.ram, actual_ram_usage)
         self.assertEqual(size.cores, actual_vcpu_usage)
-
