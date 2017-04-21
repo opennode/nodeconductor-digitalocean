@@ -125,10 +125,10 @@ class DropletSerializer(structure_serializers.VirtualMachineSerializer):
                     'name': 'Only valid hostname characters are allowed. (a-z, A-Z, 0-9, . and -)'
                 })
 
-            # if not attrs.get('ssh_public_key') and image.is_ssh_key_mandatory:
-            #     raise serializers.ValidationError({
-            #         'ssh_public_key': 'SSH public key is required for this image'
-            #     })
+            if not attrs.get('ssh_public_key') and image.is_ssh_key_mandatory:
+                raise serializers.ValidationError({
+                    'ssh_public_key': 'SSH public key is required for this image'
+                })
 
             if not image.regions.filter(pk=region.pk).exists():
                 raise serializers.ValidationError({
