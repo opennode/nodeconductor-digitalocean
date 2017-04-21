@@ -72,4 +72,3 @@ class DropletResizeTest(test.APITransactionTestCase):
             'disk': True
         })
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST, response.data)
-
