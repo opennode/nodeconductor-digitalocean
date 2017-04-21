@@ -137,7 +137,7 @@ class DropletViewSet(structure_views.ResourceViewSet):
         size = serializer.validated_data['size']
         disk = serializer.validated_data['disk']
 
-        self.resize_executor.execute(
+        executors.DropletResizeExecutor.execute(
             droplet,
             disk=disk,
             size=size,
@@ -174,4 +174,5 @@ class DropletViewSet(structure_views.ResourceViewSet):
 
         return response.Response({'detail': 'resizing was scheduled'}, status=status.HTTP_202_ACCEPTED)
 
+    resize_validators = [core_validators.StateValidator(models.Droplet.States.OK)]
     resize_serializer_class = serializers.DropletResizeSerializer
