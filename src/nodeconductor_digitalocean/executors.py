@@ -5,7 +5,7 @@ from nodeconductor.core.tasks import StateTransitionTask
 from nodeconductor.core.models import RuntimeStateMixin
 from nodeconductor.core import utils as core_utils
 
-from . import tasks
+from . import tasks, models
 
 
 class DropletCreateExecutor(executors.CreateExecutor):
@@ -33,15 +33,39 @@ class DropletDeleteExecutor(executors.DeleteExecutor):
             return StateTransitionTask().si(serialized_droplet, state_transition='begin_deleting')
 
 
-class DropletStateChangeExecutor(executors.UpdateExecutor):
+class DropletStopExecutor(executors.ActionExecutor):
 
     @classmethod
-    def get_task_signature(cls, droplet, serialized_droplet, method=None, final_state=None, **kwargs):
+    def get_task_signature(cls, droplet, serialized_droplet, **kwargs):
         return chain(
             tasks.SafeBackendMethodTask().si(
-                serialized_droplet, method,
+                serialized_droplet, 'stop',
                 state_transition='begin_updating',
-                success_runtime_state=final_state),
+                success_runtime_state=models.Droplet.RuntimeStates.OFFLINE),
+            tasks.WaitForActionComplete().s(serialized_droplet).set(countdown=10))
+
+
+class DropletStartExecutor(executors.ActionExecutor):
+
+    @classmethod
+    def get_task_signature(cls, droplet, serialized_droplet, **kwargs):
+        return chain(
+            tasks.SafeBackendMethodTask().si(
+                serialized_droplet, 'start',
+                state_transition='begin_updating',
+                success_runtime_state=models.Droplet.RuntimeStates.ONLINE),
+            tasks.WaitForActionComplete().s(serialized_droplet).set(countdown=10))
+
+
+class DropletRestartExecutor(executors.ActionExecutor):
+
+    @classmethod
+    def get_task_signature(cls, droplet, serialized_droplet, **kwargs):
+        return chain(
+            tasks.SafeBackendMethodTask().si(
+                serialized_droplet, 'restart',
+                state_transition='begin_updating',
+                success_runtime_state=models.Droplet.RuntimeStates.ONLINE),
             tasks.WaitForActionComplete().s(serialized_droplet).set(countdown=10))
 
 
@@ -56,7 +80,7 @@ class DropletResizeExecutor(executors.UpdateExecutor):
                 serialized_droplet, 'resize',
                 state_transition='begin_updating',
                 runtime_state='resizing',
-                success_runtime_state=RuntimeStateMixin.RuntimeStates.ONLINE,
+                success_runtime_state=models.Droplet.RuntimeStates.ONLINE,
                 backend_size_id=size.backend_id,
                 disk=disk),
             tasks.WaitForActionComplete().s(serialized_droplet).set(countdown=10),
