@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 import re
 
+from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
@@ -122,27 +123,30 @@ class DropletSerializer(structure_serializers.VirtualMachineSerializer):
 
             if not re.match(r'[a-zA-Z0-9.-]+$', attrs['name']):
                 raise serializers.ValidationError({
-                    'name': 'Only valid hostname characters are allowed. (a-z, A-Z, 0-9, . and -)'
+                    'name': _('Only valid hostname characters are allowed. (a-z, A-Z, 0-9, . and -)')
                 })
 
             if not attrs.get('ssh_public_key') and image.is_ssh_key_mandatory:
                 raise serializers.ValidationError({
-                    'ssh_public_key': 'SSH public key is required for this image'
+                    'ssh_public_key': _('SSH public key is required for this image')
                 })
 
             if not image.regions.filter(pk=region.pk).exists():
                 raise serializers.ValidationError({
-                    'image': 'Image is missing in region %s' % region
+                    'image': _('Image is missing in region %s') % region
                 })
 
             if not size.regions.filter(pk=region.pk).exists():
                 raise serializers.ValidationError({
-                    'size': 'Size is missing in region %s' % region
+                    'size': _('Size is missing in region %s') % region
                 })
 
             if image.min_disk_size and size.disk < image.min_disk_size:
                 raise serializers.ValidationError({
-                    'size': 'Disk provided by size %s is not enough for image %s' % (size, image)
+                    'size': _('Disk provided by size %(size)s is not enough for image %(image)s') % ({
+                        'size': size,
+                        'image': image
+                    })
                 })
 
         return attrs
@@ -166,7 +170,7 @@ class DropletImportSerializer(structure_serializers.BaseResourceImportSerializer
             return backend.import_droplet(backend_id, service_project_link)
         except DigitalOceanBackendError:
             raise serializers.ValidationError(
-                {'backend_id': "Can't find droplet with ID %s" % backend_id})
+                {'backend_id': _("Can't find droplet with ID %s") % backend_id})
 
 
 class DropletResizeSerializer(serializers.Serializer):
@@ -190,10 +194,10 @@ class DropletResizeSerializer(serializers.Serializer):
     def validate_size(self, value):
         if value:
             if self.is_same_size(value):
-                raise ValidationError("New size is the same. Please select another one.")
+                raise ValidationError(_('New size is the same. Please select another one.'))
 
             if value.disk < self.instance.disk:
-                raise ValidationError("Disk sizes are not allowed to be decreased through a resize operation.")
+                raise ValidationError(_('Disk sizes are not allowed to be decreased through a resize operation.'))
         return value
 
     def is_same_size(self, new_size):

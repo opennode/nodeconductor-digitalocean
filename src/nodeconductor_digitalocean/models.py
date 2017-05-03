@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext_lazy as _
 
 from nodeconductor.quotas.fields import CounterQuotaField
 from nodeconductor.quotas.models import QuotaModelMixin
@@ -16,8 +17,8 @@ class DigitalOceanService(structure_models.Service):
         structure_models.Project, related_name='digitalocean_services', through='DigitalOceanServiceProjectLink')
 
     class Meta(structure_models.Service.Meta):
-        verbose_name = 'DigitalOcean provider'
-        verbose_name_plural = 'DigitalOcean providers'
+        verbose_name = _('DigitalOcean provider')
+        verbose_name_plural = _('DigitalOcean providers')
 
     class Quotas(QuotaModelMixin.Quotas):
         droplet_count = CounterQuotaField(
@@ -46,8 +47,8 @@ class DigitalOceanServiceProjectLink(structure_models.CloudServiceProjectLink):
     service = models.ForeignKey(DigitalOceanService)
 
     class Meta(structure_models.CloudServiceProjectLink.Meta):
-        verbose_name = 'DigitalOcean provider project link'
-        verbose_name_plural = 'DigitalOcean provider project links'
+        verbose_name = _('DigitalOcean provider project link')
+        verbose_name_plural = _('DigitalOcean provider project links')
 
     @classmethod
     def get_url_name(cls):
@@ -65,9 +66,9 @@ class Image(structure_models.GeneralServiceProperty):
     regions = models.ManyToManyField(Region)
     distribution = models.CharField(max_length=100)
     type = models.CharField(max_length=100)
-    is_official = models.BooleanField(default=False, help_text='Is image provided by DigitalOcean')
+    is_official = models.BooleanField(default=False, help_text=_('Is image provided by DigitalOcean'))
     min_disk_size = models.PositiveIntegerField(
-        null=True, help_text='Minimum disk required for a size to use this image')
+        null=True, help_text=_('Minimum disk required for a size to use this image'))
     created_at = models.DateTimeField(null=True)
 
     @property
@@ -84,17 +85,18 @@ class Image(structure_models.GeneralServiceProperty):
 
     @classmethod
     def get_backend_fields(cls):
-        return super(Image, cls).get_backend_fields() + ('type', 'distribution', 'is_official', 'min_disk_size', 'created_at')
+        return super(Image, cls).get_backend_fields() + ('type', 'distribution', 'is_official', 'min_disk_size',
+                                                         'created_at')
 
 
 class Size(structure_models.GeneralServiceProperty):
     regions = models.ManyToManyField(Region)
 
-    cores = models.PositiveSmallIntegerField(help_text='Number of cores in a VM')
-    ram = models.PositiveIntegerField(help_text='Memory size in MiB')
-    disk = models.PositiveIntegerField(help_text='Disk size in MiB')
-    transfer = models.PositiveIntegerField(help_text='Amount of transfer bandwidth in MiB')
-    price = models.DecimalField('Hourly price rate', default=0, max_digits=11, decimal_places=5)
+    cores = models.PositiveSmallIntegerField(help_text=_('Number of cores in a VM'))
+    ram = models.PositiveIntegerField(help_text=_('Memory size in MiB'))
+    disk = models.PositiveIntegerField(help_text=_('Disk size in MiB'))
+    transfer = models.PositiveIntegerField(help_text=_('Amount of transfer bandwidth in MiB'))
+    price = models.DecimalField(_('Hourly price rate'), default=0, max_digits=11, decimal_places=5)
 
     @classmethod
     def get_url_name(cls):
@@ -108,7 +110,7 @@ class Size(structure_models.GeneralServiceProperty):
 class Droplet(structure_models.VirtualMachine):
     service_project_link = models.ForeignKey(
         DigitalOceanServiceProjectLink, related_name='droplets', on_delete=models.PROTECT)
-    transfer = models.PositiveIntegerField(default=0, help_text='Amount of transfer bandwidth in MiB')
+    transfer = models.PositiveIntegerField(default=0, help_text=_('Amount of transfer bandwidth in MiB'))
     ip_address = models.GenericIPAddressField(null=True, protocol='IPv4', blank=True)
     region_name = models.CharField(max_length=150, blank=True)
     size_name = models.CharField(max_length=150, blank=True)
