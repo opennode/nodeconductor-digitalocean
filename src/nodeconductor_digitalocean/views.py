@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+from django.utils.translation import ugettext_lazy as _
 from rest_framework import decorators, response, status, serializers as rf_serializers
 
 from nodeconductor.core import executors as core_executors, validators as core_validators
@@ -78,7 +79,7 @@ class DropletViewSet(structure_views.ResourceViewSet):
     def start(self, request, uuid=None):
         instance = self.get_object()
         executors.DropletStartExecutor().execute(instance)
-        return response.Response({'status': 'start was scheduled'}, status=status.HTTP_202_ACCEPTED)
+        return response.Response({'status': _('start was scheduled')}, status=status.HTTP_202_ACCEPTED)
 
     start_validators = [core_validators.StateValidator(models.Droplet.States.OK),
                         core_validators.RuntimeStateValidator(models.Droplet.RuntimeStates.OFFLINE)]
@@ -88,7 +89,7 @@ class DropletViewSet(structure_views.ResourceViewSet):
     def stop(self, request, uuid=None):
         instance = self.get_object()
         executors.DropletStopExecutor().execute(instance)
-        return response.Response({'status': 'stop was scheduled'}, status=status.HTTP_202_ACCEPTED)
+        return response.Response({'status': _('stop was scheduled')}, status=status.HTTP_202_ACCEPTED)
 
     stop_validators = [core_validators.StateValidator(models.Droplet.States.OK),
                        core_validators.RuntimeStateValidator(models.Droplet.RuntimeStates.ONLINE)]
@@ -98,7 +99,7 @@ class DropletViewSet(structure_views.ResourceViewSet):
     def restart(self, request, uuid=None):
         instance = self.get_object()
         executors.DropletRestartExecutor().execute(instance)
-        return response.Response({'status': 'restart was scheduled'}, status=status.HTTP_202_ACCEPTED)
+        return response.Response({'status': _('restart was scheduled')}, status=status.HTTP_202_ACCEPTED)
 
     restart_validators = [core_validators.StateValidator(models.Droplet.States.OK),
                           core_validators.RuntimeStateValidator(models.Droplet.RuntimeStates.ONLINE)]
@@ -144,8 +145,8 @@ class DropletViewSet(structure_views.ResourceViewSet):
             updated_fields=None,
             async=self.async_executor)
 
-        message = 'Droplet {droplet_name} has been scheduled to %s resize.' % \
-                  (disk and 'permanent' or 'flexible')
+        message = _('Droplet {droplet_name} has been scheduled to %s resize.') % \
+                  (disk and _('permanent') or _('flexible'))
         log.event_logger.droplet_resize.info(
             message,
             event_type='droplet_resize_scheduled',
@@ -172,7 +173,7 @@ class DropletViewSet(structure_views.ResourceViewSet):
         spl.add_quota_usage(spl.Quotas.ram, ram_increment, validate=True)
         spl.add_quota_usage(spl.Quotas.vcpu, cores_increment, validate=True)
 
-        return response.Response({'detail': 'resizing was scheduled'}, status=status.HTTP_202_ACCEPTED)
+        return response.Response({'detail': _('resizing was scheduled')}, status=status.HTTP_202_ACCEPTED)
 
     resize_validators = [core_validators.StateValidator(models.Droplet.States.OK)]
     resize_serializer_class = serializers.DropletResizeSerializer
