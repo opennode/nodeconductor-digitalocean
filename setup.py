@@ -8,11 +8,11 @@ dev_requires = [
 
 tests_requires = [
     'factory_boy==2.4.1',
-    'mock==1.0.1',
+    'mock>=1.0.1',
 ]
 
 install_requires = [
-    'nodeconductor>0.134.0',
+    'nodeconductor>0.138.0',
     'python-digitalocean>=1.5',
 ]
 
@@ -22,8 +22,8 @@ setup(
     version='0.6.0',
     author='OpenNode Team',
     author_email='info@opennodecloud.com',
-    url='http://nodeconductor.com',
-    description='NodeConductor plugin for managing DigitalOcean resources.',
+    url='http://waldur.com',
+    description='Waldur plugin for managing DigitalOcean resources.',
     long_description=open('README.rst').read(),
     package_dir={'': 'src'},
     packages=find_packages('src', exclude=['*.tests', '*.tests.*', 'tests.*', 'tests']),
