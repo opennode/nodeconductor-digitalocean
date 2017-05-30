@@ -1,5 +1,5 @@
 Name: nodeconductor-digitalocean
-Summary: DigitalOcean plugin for NodeConductor
+Summary: DigitalOcean plugin for Waldur
 Group: Development/Libraries
 Version: 0.6.0
 Release: 1.el7
@@ -16,7 +16,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: python-setuptools
 
 %description
-DigitalOcean plugin for NodeConductor.
+DigitalOcean plugin for Waldur.
 
 %prep
 %setup -q -n %{name}-%{version}
