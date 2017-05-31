@@ -17,7 +17,7 @@ class DropletStrategy(CostTrackingStrategy):
     @classmethod
     def get_configuration(cls, droplet):
         consumables = {}
-        if droplet.state != models.Droplet.States.ERRED:
+        if droplet.state != models.Droplet.States.ERRED and droplet.size_name:
             consumables[ConsumableItem(item_type=cls.Types.FLAVOR, key=droplet.size_name)] = 1
         return consumables
 

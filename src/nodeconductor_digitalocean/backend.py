@@ -298,6 +298,7 @@ class DigitalOceanBackend(ServiceBackend):
         droplet.backend_id = backend_droplet_id
         droplet.name = backend_droplet.name
         droplet.image_name = self.format_image_name(backend_droplet.image)
+        droplet.size_name = backend_droplet.size_slug
         droplet.cores = backend_droplet.vcpus
         droplet.ram = backend_droplet.memory
         droplet.disk = self.gb2mb(backend_droplet.disk)
