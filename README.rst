@@ -1,5 +1,4 @@
-NodeConductor DigitalOcean
-==========================
+Waldur DigitalOcean
+===================
 
-NodeConductor plugin for managing DigitalOcean resources.
-
+Waldur plugin for managing DigitalOcean resources.

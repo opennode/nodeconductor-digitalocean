@@ -120,7 +120,7 @@ class BaseDropletProvisionTest(DigitalOceanBackendTest):
             name=self.ssh_public_key.name,
             id=None
         )
-        self.ssh_api.load.assert_called_once()
+        self.ssh_api().load.assert_called_once()
         self.assertFalse(self.ssh_api.create.called)
 
     def test_ssh_key_is_created_if_it_does_not_exist_yet(self):
@@ -130,14 +130,14 @@ class BaseDropletProvisionTest(DigitalOceanBackendTest):
         self.client.post(self.url, self.get_valid_data(
             ssh_public_key=self.ssh_url
         ))
-        self.ssh_api.load.assert_called_once()
-        self.ssh_api.create.assert_called_once()
+        self.ssh_api().load.assert_called_once()
+        self.ssh_api().create.assert_called_once()
 
     def test_if_ssh_key_is_not_specified_it_is_not_used(self):
         self.client.post(self.url, self.get_valid_data())
 
-        self.assertFalse(self.ssh_api.load.called)
-        self.assertFalse(self.ssh_api.create.called)
+        self.assertFalse(self.ssh_api().load.called)
+        self.assertFalse(self.ssh_api().create.called)
         self.droplet_api().create.assert_called_once()
 
         droplet = Droplet.objects.get(backend_id=self.mock_droplet.id)
