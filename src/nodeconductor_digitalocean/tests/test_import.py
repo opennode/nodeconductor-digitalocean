@@ -20,7 +20,8 @@ class ImportDroptetTest(test.APITransactionTestCase):
         self.client.force_authenticate(user=structure_factories.UserFactory(is_staff=True))
 
         Droplet = collections.namedtuple('Droplet', (
-            'name', 'vcpus', 'memory', 'disk', 'ip_address', 'status', 'created_at', 'size', 'image'
+            'name', 'vcpus', 'memory', 'disk', 'ip_address', 'status', 'created_at', 'size',
+            'size_slug', 'image',
         ))
         self.mocked_droplet = Droplet(
             name='Webserver',
@@ -30,6 +31,7 @@ class ImportDroptetTest(test.APITransactionTestCase):
             ip_address='10.0.0.1',
             status='active',
             size={'transfer': 1},
+            size_slug='832959fe-4a87-4d0c-bf6b-b09d468daeb6',
             created_at=timezone.now().isoformat(),
             image={'distribution': 'CentOS', 'name': '7.1 x64'}
         )
