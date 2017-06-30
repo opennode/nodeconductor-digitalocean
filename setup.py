@@ -25,6 +25,7 @@ setup(
     url='http://waldur.com',
     description='Waldur plugin for managing DigitalOcean resources.',
     long_description=open('README.rst').read(),
+    license='MIT',
     package_dir={'': 'src'},
     packages=find_packages('src', exclude=['*.tests', '*.tests.*', 'tests.*', 'tests']),
     install_requires=install_requires,
