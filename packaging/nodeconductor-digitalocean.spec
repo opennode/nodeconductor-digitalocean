@@ -1,13 +1,13 @@
 Name: nodeconductor-digitalocean
 Summary: DigitalOcean plugin for Waldur
 Group: Development/Libraries
-Version: 0.8.0
+Version: 0.8.1
 Release: 1.el7
 License: MIT
-Url: http://nodeconductor.com
+Url: http://waldur.com
 Source0: %{name}-%{version}.tar.gz
 
-Requires: nodeconductor > 0.138.0
+Requires: waldur-core > 0.138.0
 Requires: python-digitalocean >= 1.5
 
 BuildArch: noarch
@@ -36,6 +36,9 @@ rm -rf %{buildroot}
 %{python_sitelib}/*
 
 %changelog
+* Fri Jun 30 2017 Jenkins <jenkins@opennodecloud.com> - 0.8.1-1.el7
+- New upstream release
+
 * Fri Jun 2 2017 Jenkins <jenkins@opennodecloud.com> - 0.8.0-1.el7
 - New upstream release
 
