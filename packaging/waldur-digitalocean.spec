@@ -1,4 +1,4 @@
-Name: nodeconductor-digitalocean
+Name: waldur-digitalocean
 Summary: DigitalOcean plugin for Waldur
 Group: Development/Libraries
 Version: 0.8.1
@@ -14,6 +14,8 @@ BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 BuildRequires: python-setuptools
+
+Obsoletes: nodeconductor-digitalocean
 
 %description
 DigitalOcean plugin for Waldur.
