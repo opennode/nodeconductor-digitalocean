@@ -1,4 +1,4 @@
-Welcome to NodeConductor DigitalOcean plugin's documentation!
+Welcome to Waldur DigitalOcean plugin's documentation!
 =============================================================
 
 NodeConductor plugin for managing DigitalOcean resources.

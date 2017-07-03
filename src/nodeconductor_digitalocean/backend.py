@@ -58,7 +58,7 @@ def digitalocean_error_handler(func):
 
 
 class DigitalOceanBackend(ServiceBackend):
-    """ NodeConductor interface to Digital Ocean API.
+    """ Waldur interface to Digital Ocean API.
         https://developers.digitalocean.com/documentation/v2/
         https://github.com/koalalorenzo/python-digitalocean
     """
