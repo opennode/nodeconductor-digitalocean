@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# NodeConductor DigitalOcean documentation build configuration file.
+# Waldur DigitalOcean documentation build configuration file.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.

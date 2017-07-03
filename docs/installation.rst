@@ -1,15 +1,15 @@
 Installation
 ------------
 
-* `Install NodeConductor <http://nodeconductor.readthedocs.org/en/latest/guide/intro.html#installation-from-source>`_
+* `Install Waldur <http://nodeconductor.readthedocs.org/en/latest/guide/intro.html#installation-from-source>`_
 
-* Clone NodeConductor DigitalOcean repository
+* Clone Waldur DigitalOcean repository
 
   .. code-block:: bash
 
     git clone https://github.com/opennode/nodeconductor-digitalocean.git
 
-* Install NodeConductor DigitalOcean into NodeConductor virtual environment
+* Install Waldur DigitalOcean into Waldur virtual environment
 
   .. code-block:: bash
 
