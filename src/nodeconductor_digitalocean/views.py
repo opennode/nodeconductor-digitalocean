@@ -47,7 +47,7 @@ class SizeViewSet(structure_views.BaseServicePropertyViewSet):
 class DropletViewSet(structure_views.ResourceViewSet):
     queryset = models.Droplet.objects.all()
     serializer_class = serializers.DropletSerializer
-
+    filter_class = filters.DropletFilter
     create_executor = executors.DropletCreateExecutor
     update_executor = core_executors.EmptyExecutor
     delete_executor = executors.DropletDeleteExecutor
