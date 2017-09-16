@@ -19,7 +19,7 @@ install_requires = [
 
 setup(
     name='nodeconductor-digitalocean',
-    version='0.8.3',
+    version='0.8.4',
     author='OpenNode Team',
     author_email='info@opennodecloud.com',
     url='http://waldur.com',
