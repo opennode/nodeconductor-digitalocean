@@ -24,3 +24,8 @@ class SizeFilter(structure_filters.BaseServicePropertyFilter):
 class RegionFilter(structure_filters.BaseServicePropertyFilter):
     class Meta(structure_filters.BaseServicePropertyFilter.Meta):
         model = models.Region
+
+
+class DropletFilter(structure_filters.BaseResourceFilter):
+    class Meta(structure_filters.BaseResourceFilter.Meta):
+        model = models.Droplet
