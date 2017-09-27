@@ -12,9 +12,9 @@ def remove_ssh_keys_from_service(sender, structure, user, role, **kwargs):
         lost_services = models.DigitalOceanService.objects.filter(customer=structure)
     else:
         return
-    lost_settings = structure_models.ServiceSettings.objects.filter(digitaloceanservice=lost_services)
+    lost_settings = [service.settings for service in lost_services]
     visible_services = structure_filters.filter_queryset_for_user(models.DigitalOceanService.objects.all(), user)
-    visible_settings = structure_models.ServiceSettings.objects.filter(digitaloceanservice=visible_services)
+    visible_settings = [service.settings for service in visible_services]
     settings_list = set([settings for settings in lost_settings if settings not in visible_settings])
 
     ssh_keys = core_models.SshPublicKey.objects.filter(user=user)
