@@ -4,6 +4,7 @@ from nodeconductor.core import executors
 from nodeconductor.core.tasks import StateTransitionTask
 from nodeconductor.core.models import RuntimeStateMixin
 from nodeconductor.core import utils as core_utils
+from nodeconductor.structure import executors as structure_executors
 
 from . import tasks, models
 
@@ -85,3 +86,9 @@ class DropletResizeExecutor(executors.UpdateExecutor):
                 disk=disk),
             tasks.WaitForActionComplete().s(serialized_droplet).set(countdown=10),
             tasks.LogDropletResized().si(serialized_droplet, core_utils.serialize_instance(size)))
+
+
+class DigitalOceanCleanupExecutor(structure_executors.BaseCleanupExecutor):
+    executors = (
+        (models.Droplet, DropletDeleteExecutor),
+    )
