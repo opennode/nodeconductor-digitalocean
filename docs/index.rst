@@ -22,7 +22,7 @@ Endpoints
 License
 -------
 
-NodeConductor DigitalOcean plugin is open-source under MIT license.
+Waldur DigitalOcean plugin is open-source under MIT license.
 
 
 Indices and tables

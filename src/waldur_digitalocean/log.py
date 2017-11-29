@@ -9,8 +9,8 @@ class DigitalOceanAlertLogger(AlertLogger):
 
 
 class DropletResizeEventLogger(EventLogger):
-    droplet = 'nodeconductor_digitalocean.Droplet'
-    size = 'nodeconductor_digitalocean.Size'
+    droplet = 'waldur_digitalocean.Droplet'
+    size = 'waldur_digitalocean.Size'
 
     class Meta:
         event_types = ('droplet_resize_scheduled',

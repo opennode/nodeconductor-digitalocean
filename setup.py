@@ -18,8 +18,8 @@ install_requires = [
 
 
 setup(
-    name='nodeconductor-digitalocean',
-    version='0.10.0',
+    name='waldur-digitalocean',
+    version='0.10.1',
     author='OpenNode Team',
     author_email='info@opennodecloud.com',
     url='http://waldur.com',
@@ -36,7 +36,7 @@ setup(
     },
     entry_points={
         'nodeconductor_extensions': (
-            'nodeconductor_digitalocean = nodeconductor_digitalocean.extension:DigitalOceanExtension',
+            'waldur_digitalocean = waldur_digitalocean.extension:DigitalOceanExtension',
         ),
     },
     tests_require=tests_requires,

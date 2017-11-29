@@ -7,7 +7,7 @@ class DigitalOceanExtension(NodeConductorExtension):
 
     @staticmethod
     def django_app():
-        return 'nodeconductor_digitalocean'
+        return 'waldur_digitalocean'
 
     @staticmethod
     def rest_urls():
