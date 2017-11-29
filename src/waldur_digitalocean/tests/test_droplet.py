@@ -67,7 +67,7 @@ class DropletResizeTest(test.APITransactionTestCase):
         })
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST, response.data)
 
-    @mock.patch('nodeconductor_digitalocean.executors.DropletResizeExecutor.execute')
+    @mock.patch('waldur_digitalocean.executors.DropletResizeExecutor.execute')
     def test_droplet_resize_increases_quotas(self, executor):
         self.client.force_authenticate(self.fixture.owner)
         droplet = self.fixture.droplet
@@ -137,7 +137,7 @@ class DropletDeleteTest(test.APITransactionTestCase):
     def setUp(self):
         self.fixture = fixtures.DigitalOceanFixture()
 
-    @mock.patch('nodeconductor_digitalocean.executors.DropletDeleteExecutor.execute')
+    @mock.patch('waldur_digitalocean.executors.DropletDeleteExecutor.execute')
     def test_spl_quotas_are_decreased_on_droplet_deletion(self, delete_exectutor_mock):
         self.client.force_authenticate(self.fixture.owner)
         droplet = self.fixture.droplet
