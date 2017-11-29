@@ -256,14 +256,14 @@ class DigitalOceanBackend(ServiceBackend):
         States = models.Droplet.States
         RuntimeStates = models.Droplet.RuntimeStates
 
-        digitalocean_to_nodeconductor = {
+        digitalocean_to_waldur = {
             'new': (States.CREATING, 'provisioning'),
             'active': (States.OK, RuntimeStates.ONLINE),
             'off': (States.OK, RuntimeStates.OFFLINE),
             'archive': (States.OK, 'archive'),
         }
 
-        return digitalocean_to_nodeconductor.get(droplet.status, (States.ERRED, 'error'))
+        return digitalocean_to_waldur.get(droplet.status, (States.ERRED, 'error'))
 
     def format_image_name(self, backend_image):
         return '{} {}'.format(backend_image['distribution'], backend_image['name'])

@@ -3,8 +3,8 @@ from django.db.models import signals
 
 
 class DigitalOceanConfig(AppConfig):
-    name = 'nodeconductor_digitalocean'
-    verbose_name = "NodeConductor DigitalOcean"
+    name = 'waldur_digitalocean'
+    verbose_name = 'Waldur DigitalOcean'
     service_name = 'DigitalOcean'
     is_public_service = True
 
@@ -20,12 +20,12 @@ class DigitalOceanConfig(AppConfig):
             structure_signals.structure_role_revoked.connect(
                 handlers.remove_ssh_keys_from_service,
                 sender=model,
-                dispatch_uid=('nodeconductor_digitalocean.handlers.remove_ssh_keys_from_service__%s'
+                dispatch_uid=('waldur_digitalocean.handlers.remove_ssh_keys_from_service__%s'
                               % model.__name__),
             )
 
         signals.pre_delete.connect(
             handlers.remove_ssh_key_from_service_settings_on_deletion,
             sender=core_models.SshPublicKey,
-            dispatch_uid='nodeconductor_digitalocean.handlers.remove_ssh_key_from_service_settings_on_deletion',
+            dispatch_uid='waldur_digitalocean.handlers.remove_ssh_key_from_service_settings_on_deletion',
         )
