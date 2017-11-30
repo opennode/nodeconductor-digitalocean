@@ -12,7 +12,7 @@ tests_requires = [
 ]
 
 install_requires = [
-    'nodeconductor>0.148.3',
+    'waldur_core>0.148.3',
     'python-digitalocean>=1.5',
 ]
 
@@ -35,7 +35,7 @@ setup(
         'dev': dev_requires,
     },
     entry_points={
-        'nodeconductor_extensions': (
+        'waldur_extensions': (
             'waldur_digitalocean = waldur_digitalocean.extension:DigitalOceanExtension',
         ),
     },

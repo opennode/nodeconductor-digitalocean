@@ -1,5 +1,5 @@
-from nodeconductor.core import models as core_models, tasks as core_tasks, utils as core_utils
-from nodeconductor.structure import models as structure_models, filters as structure_filters
+from waldur_core.core import models as core_models, tasks as core_tasks, utils as core_utils
+from waldur_core.structure import models as structure_models, filters as structure_filters
 
 from . import models
 

@@ -1,10 +1,10 @@
 from celery import chain
 
-from nodeconductor.core import executors
-from nodeconductor.core.tasks import StateTransitionTask
-from nodeconductor.core.models import RuntimeStateMixin
-from nodeconductor.core import utils as core_utils
-from nodeconductor.structure import executors as structure_executors
+from waldur_core.core import executors
+from waldur_core.core.tasks import StateTransitionTask
+from waldur_core.core.models import RuntimeStateMixin
+from waldur_core.core import utils as core_utils
+from waldur_core.structure import executors as structure_executors
 
 from . import tasks, models
 

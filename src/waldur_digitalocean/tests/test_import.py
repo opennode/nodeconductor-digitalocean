@@ -4,8 +4,8 @@ import mock
 from django.utils import timezone
 from rest_framework import status, test
 
-from nodeconductor.structure import ServiceBackend
-from nodeconductor.structure.tests import factories as structure_factories
+from waldur_core.structure import ServiceBackend
+from waldur_core.structure.tests import factories as structure_factories
 
 from .. import models
 from . import factories

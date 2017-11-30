@@ -7,10 +7,10 @@ import django.db.models.deletion
 import django.utils.timezone
 import django_fsm
 import model_utils.fields
-import nodeconductor.core.fields
-import nodeconductor.core.models
-import nodeconductor.core.validators
-import nodeconductor.logging.loggers
+import waldur_core.core.fields
+import waldur_core.core.models
+import waldur_core.core.validators
+import waldur_core.logging.loggers
 import taggit.managers
 
 
@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
             name='DigitalOceanService',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', nodeconductor.core.fields.UUIDField()),
+                ('uuid', waldur_core.core.fields.UUIDField()),
                 ('available_for_all', models.BooleanField(default=False, help_text='Service will be automatically added to all customers projects if it is available for all')),
                 ('customer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='structure.Customer', verbose_name='organization')),
             ],
@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'DigitalOcean provider',
                 'verbose_name_plural': 'DigitalOcean providers',
             },
-            bases=(nodeconductor.core.models.DescendantMixin, nodeconductor.logging.loggers.LoggableMixin, models.Model),
+            bases=(waldur_core.core.models.DescendantMixin, waldur_core.logging.loggers.LoggableMixin, models.Model),
         ),
         migrations.CreateModel(
             name='DigitalOceanServiceProjectLink',
@@ -51,7 +51,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'DigitalOcean provider project link',
                 'verbose_name_plural': 'DigitalOcean provider project links',
             },
-            bases=(nodeconductor.core.models.DescendantMixin, nodeconductor.logging.loggers.LoggableMixin, models.Model),
+            bases=(waldur_core.core.models.DescendantMixin, waldur_core.logging.loggers.LoggableMixin, models.Model),
         ),
         migrations.CreateModel(
             name='Droplet',
@@ -60,8 +60,8 @@ class Migration(migrations.Migration):
                 ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, editable=False, verbose_name='created')),
                 ('modified', model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, editable=False, verbose_name='modified')),
                 ('description', models.CharField(blank=True, max_length=500, verbose_name='description')),
-                ('name', models.CharField(max_length=150, validators=[nodeconductor.core.validators.validate_name], verbose_name='name')),
-                ('uuid', nodeconductor.core.fields.UUIDField()),
+                ('name', models.CharField(max_length=150, validators=[waldur_core.core.validators.validate_name], verbose_name='name')),
+                ('uuid', waldur_core.core.fields.UUIDField()),
                 ('error_message', models.TextField(blank=True)),
                 ('latitude', models.FloatField(blank=True, null=True)),
                 ('longitude', models.FloatField(blank=True, null=True)),
@@ -88,14 +88,14 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(nodeconductor.core.models.DescendantMixin, nodeconductor.core.models.BackendModelMixin, nodeconductor.logging.loggers.LoggableMixin, models.Model),
+            bases=(waldur_core.core.models.DescendantMixin, waldur_core.core.models.BackendModelMixin, waldur_core.logging.loggers.LoggableMixin, models.Model),
         ),
         migrations.CreateModel(
             name='Image',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=150, validators=[nodeconductor.core.validators.validate_name], verbose_name='name')),
-                ('uuid', nodeconductor.core.fields.UUIDField()),
+                ('name', models.CharField(max_length=150, validators=[waldur_core.core.validators.validate_name], verbose_name='name')),
+                ('uuid', waldur_core.core.fields.UUIDField()),
                 ('backend_id', models.CharField(max_length=255, unique=True)),
                 ('distribution', models.CharField(max_length=100)),
                 ('type', models.CharField(max_length=100)),
@@ -106,27 +106,27 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(nodeconductor.core.models.BackendModelMixin, models.Model),
+            bases=(waldur_core.core.models.BackendModelMixin, models.Model),
         ),
         migrations.CreateModel(
             name='Region',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=150, validators=[nodeconductor.core.validators.validate_name], verbose_name='name')),
-                ('uuid', nodeconductor.core.fields.UUIDField()),
+                ('name', models.CharField(max_length=150, validators=[waldur_core.core.validators.validate_name], verbose_name='name')),
+                ('uuid', waldur_core.core.fields.UUIDField()),
                 ('backend_id', models.CharField(max_length=255, unique=True)),
             ],
             options={
                 'abstract': False,
             },
-            bases=(nodeconductor.core.models.BackendModelMixin, models.Model),
+            bases=(waldur_core.core.models.BackendModelMixin, models.Model),
         ),
         migrations.CreateModel(
             name='Size',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=150, validators=[nodeconductor.core.validators.validate_name], verbose_name='name')),
-                ('uuid', nodeconductor.core.fields.UUIDField()),
+                ('name', models.CharField(max_length=150, validators=[waldur_core.core.validators.validate_name], verbose_name='name')),
+                ('uuid', waldur_core.core.fields.UUIDField()),
                 ('backend_id', models.CharField(max_length=255, unique=True)),
                 ('cores', models.PositiveSmallIntegerField(help_text='Number of cores in a VM')),
                 ('ram', models.PositiveIntegerField(help_text='Memory size in MiB')),
@@ -138,7 +138,7 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=(nodeconductor.core.models.BackendModelMixin, models.Model),
+            bases=(waldur_core.core.models.BackendModelMixin, models.Model),
         ),
         migrations.AddField(
             model_name='image',

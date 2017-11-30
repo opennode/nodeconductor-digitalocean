@@ -9,8 +9,8 @@ import digitalocean
 from django.db import IntegrityError, transaction
 from django.utils import dateparse, six
 
-from nodeconductor.core.models import SshPublicKey
-from nodeconductor.structure import ServiceBackend, ServiceBackendError, SupportedServices
+from waldur_core.core.models import SshPublicKey
+from waldur_core.structure import ServiceBackend, ServiceBackendError, SupportedServices
 
 from . import models
 

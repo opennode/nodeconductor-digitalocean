@@ -1,7 +1,7 @@
 from rest_framework import status, test
 
-from nodeconductor.structure.models import ProjectRole, CustomerRole
-from nodeconductor.structure.tests import factories as structure_factories
+from waldur_core.structure.models import ProjectRole, CustomerRole
+from waldur_core.structure.tests import factories as structure_factories
 
 from . import factories
 from ..models import DigitalOceanService
