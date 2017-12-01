@@ -4,9 +4,9 @@ import mock
 from django.contrib.contenttypes.models import ContentType
 from rest_framework import test
 
-from nodeconductor.logging.models import Alert
-from nodeconductor.structure.models import CustomerRole
-from nodeconductor.structure.tests import factories as structure_factories
+from waldur_core.logging.models import Alert
+from waldur_core.structure.models import CustomerRole
+from waldur_core.structure.tests import factories as structure_factories
 
 from . import factories
 from ..apps import DigitalOceanConfig

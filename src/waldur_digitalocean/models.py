@@ -4,9 +4,9 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
-from nodeconductor.quotas.fields import CounterQuotaField
-from nodeconductor.quotas.models import QuotaModelMixin
-from nodeconductor.structure import models as structure_models
+from waldur_core.quotas.fields import CounterQuotaField
+from waldur_core.quotas.models import QuotaModelMixin
+from waldur_core.structure import models as structure_models
 
 
 from .log import alert_logger

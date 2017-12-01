@@ -9,8 +9,8 @@ class DigitalOceanConfig(AppConfig):
     is_public_service = True
 
     def ready(self):
-        from nodeconductor.core import models as core_models
-        from nodeconductor.structure import SupportedServices, signals as structure_signals, models as structure_models
+        from waldur_core.core import models as core_models
+        from waldur_core.structure import SupportedServices, signals as structure_signals, models as structure_models
 
         from . import handlers
         from .backend import DigitalOceanBackend

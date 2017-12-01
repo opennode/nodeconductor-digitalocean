@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import decorators, response, status, serializers as rf_serializers
 
-from nodeconductor.core import executors as core_executors, validators as core_validators
-from nodeconductor.structure import views as structure_views
+from waldur_core.core import executors as core_executors, validators as core_validators
+from waldur_core.structure import views as structure_views
 
 from . import models, serializers, log, filters, executors
 
