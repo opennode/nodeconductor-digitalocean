@@ -12,7 +12,7 @@ tests_requires = [
 ]
 
 install_requires = [
-    'waldur_core>0.148.3',
+    'waldur-core>=0.151.0',
     'python-digitalocean>=1.5',
 ]
 
