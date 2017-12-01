@@ -4,8 +4,8 @@ import sys
 from celery import Task as CeleryTask
 from django.utils import six
 
-from nodeconductor.core import utils
-from nodeconductor.core.tasks import BackendMethodTask, Task
+from waldur_core.core import utils
+from waldur_core.core.tasks import BackendMethodTask, Task
 
 from . import backend, log
 

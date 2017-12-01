@@ -1,9 +1,9 @@
 from __future__ import unicode_literals
 
-from nodeconductor.core import NodeConductorExtension
+from waldur_core.core import WaldurExtension
 
 
-class DigitalOceanExtension(NodeConductorExtension):
+class DigitalOceanExtension(WaldurExtension):
 
     @staticmethod
     def django_app():

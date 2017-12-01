@@ -1,4 +1,4 @@
-from nodeconductor.logging.loggers import AlertLogger, alert_logger, EventLogger, event_logger
+from waldur_core.logging.loggers import AlertLogger, alert_logger, EventLogger, event_logger
 
 
 class DigitalOceanAlertLogger(AlertLogger):
