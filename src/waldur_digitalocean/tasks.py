@@ -1,11 +1,11 @@
 import logging
 import sys
 
-from celery import Task as CeleryTask
 from django.utils import six
 
 from waldur_core.core import utils
 from waldur_core.core.tasks import BackendMethodTask, Task
+from waldur_core.core.task_celery_old import CeleryTaskWithAutoRegister
 
 from . import backend, log
 
@@ -13,7 +13,7 @@ from . import backend, log
 logger = logging.getLogger(__name__)
 
 
-class WaitForActionComplete(CeleryTask):
+class WaitForActionComplete(CeleryTaskWithAutoRegister):
     max_retries = 300
     default_retry_delay = 5
 

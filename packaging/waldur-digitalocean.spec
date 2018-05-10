@@ -1,7 +1,7 @@
 Name: waldur-digitalocean
 Summary: DigitalOcean plugin for Waldur
 Group: Development/Libraries
-Version: 0.10.2
+Version: 0.11.0
 Release: 1.el7
 License: MIT
 Url: http://waldur.com
@@ -38,6 +38,9 @@ rm -rf %{buildroot}
 %{python_sitelib}/*
 
 %changelog
+* Thu May 10 2018 Jenkins <jenkins@opennodecloud.com> - 0.11.0-1.el7
+- New upstream release
+
 * Fri Dec 1 2017 Jenkins <jenkins@opennodecloud.com> - 0.10.2-1.el7
 - New upstream release
 

@@ -146,7 +146,7 @@ class DropletViewSet(structure_views.ResourceViewSet):
             async=self.async_executor)
 
         message = _('Droplet {droplet_name} has been scheduled to %s resize.') % \
-                  (disk and _('permanent') or _('flexible'))
+            (disk and _('permanent') or _('flexible'))
         log.event_logger.droplet_resize.info(
             message,
             event_type='droplet_resize_scheduled',
