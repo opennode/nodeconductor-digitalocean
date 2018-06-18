@@ -83,7 +83,10 @@ class DropletSerializer(structure_serializers.VirtualMachineSerializer):
 
     service_project_link = serializers.HyperlinkedRelatedField(
         view_name='digitalocean-spl-detail',
-        queryset=models.DigitalOceanServiceProjectLink.objects.all())
+        queryset=models.DigitalOceanServiceProjectLink.objects.all(),
+        allow_null=True,
+        required=False,
+    )
 
     region = serializers.HyperlinkedRelatedField(
         view_name='digitalocean-region-detail',
@@ -116,6 +119,8 @@ class DropletSerializer(structure_serializers.VirtualMachineSerializer):
         )
 
     def validate(self, attrs):
+        attrs = super(DropletSerializer, self).validate(attrs)
+
         if not self.instance:
             region = attrs['region']
             image = attrs['image']
