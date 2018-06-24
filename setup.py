@@ -19,7 +19,7 @@ install_requires = [
 
 setup(
     name='waldur-digitalocean',
-    version='0.11.1',
+    version='0.11.2',
     author='OpenNode Team',
     author_email='info@opennodecloud.com',
     url='http://waldur.com',
